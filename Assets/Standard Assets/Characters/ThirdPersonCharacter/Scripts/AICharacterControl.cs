@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -12,6 +13,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public float maxDistancePerTurn = 4;
         private bool isPlanning = true;
         private bool isTooFar;
+        public Text uiText;
 
 
         private void Start()
@@ -29,45 +31,41 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Update()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (isPlanning)
             {
-                if (isPlanning)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
                     agent.SetDestination(hit.point);
-                    NavMeshPath path = agent.path;
                 }
-            }
 
-            if (agent.pathPending)
-            {
-                return;
-            }
-
-            float remainingDistance = agent.remainingDistance;
-            if (remainingDistance > maxDistancePerTurn)
-            {
-                isTooFar = true;
-            }
-            else
-            {
-                isTooFar = false;
-            }
-
-            if (Input.GetButtonDown("Fire2"))
-            {
-                if (isTooFar)
+                if (agent.pathPending)
                 {
-                    print("Too far Away: " + remainingDistance);
+                    return;
+                }
+
+                float remainingDistance = agent.remainingDistance;
+                if (remainingDistance > maxDistancePerTurn)
+                {
+                    uiText.text = "Too far";
+                    isTooFar = true;
                 }
                 else
                 {
-                    print("Okay: " + remainingDistance);
-                    isPlanning = false;
-                    agent.Resume();
+                    uiText.text = "Can go";
+                    isTooFar = false;
                 }
 
+                if (Input.GetButtonDown("Fire2"))
+                {
+                    if (!isTooFar)
+                    {
+                        uiText.text = "Moving";
+                        isPlanning = false;
+                        agent.Resume();
+                    }
+                }
             }
 
             if (agent.remainingDistance > agent.stoppingDistance)
