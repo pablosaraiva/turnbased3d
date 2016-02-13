@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turn Based Move.CSharp.Plugins", "Turn Based Move.CSharp.Plugins.csproj", "{F8261BFC-2A29-7A91-A595-3B0EF55BE7D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turn Based Move.CSharp.Editor", "Turn Based Move.CSharp.Editor.csproj", "{073A6BFE-5A3F-A8FD-95A9-F2F9C1E6A55B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8261BFC-2A29-7A91-A595-3B0EF55BE7D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8261BFC-2A29-7A91-A595-3B0EF55BE7D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8261BFC-2A29-7A91-A595-3B0EF55BE7D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8261BFC-2A29-7A91-A595-3B0EF55BE7D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{073A6BFE-5A3F-A8FD-95A9-F2F9C1E6A55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{073A6BFE-5A3F-A8FD-95A9-F2F9C1E6A55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{073A6BFE-5A3F-A8FD-95A9-F2F9C1E6A55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{073A6BFE-5A3F-A8FD-95A9-F2F9C1E6A55B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
