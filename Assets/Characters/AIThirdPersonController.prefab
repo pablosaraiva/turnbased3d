@@ -2429,7 +2429,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
   m_Intensity: 8
   m_Range: 5
   m_SpotAngle: 19
@@ -2483,8 +2483,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 100
   maxDistancePerTurn: 8
-  uiText: {fileID: 0}
+  isPlaying: 0
 --- !u!136 &13660546
 CapsuleCollider:
   m_ObjectHideFlags: 1
