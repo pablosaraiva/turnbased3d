@@ -9,7 +9,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     {
         public NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
         public ThirdPersonCharacter character { get; private set; } // the character we are controlling
-        public Transform target;                                    // target to aim for
+        public float maxDistancePerTurn = 4;
+        private bool isPlanning = true;
+        private bool isTooFar;
 
 
         private void Start()
@@ -20,41 +22,65 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 	        agent.updateRotation = false;
 	        agent.updatePosition = true;
+
+            agent.Stop();
         }
 
 
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1"))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                if (isPlanning)
                 {
-                    if (hit.collider.CompareTag("Terrain"))
-                    {
-                        target = null;
-                        agent.SetDestination(hit.point);
-                    } else
-                    {
-                        target = hit.transform;
-                    }
+                    agent.SetDestination(hit.point);
+                    NavMeshPath path = agent.path;
                 }
             }
 
-            if (target != null)
-                agent.SetDestination(target.position);
+            if (agent.pathPending)
+            {
+                return;
+            }
+
+            float remainingDistance = agent.remainingDistance;
+            if (remainingDistance > maxDistancePerTurn)
+            {
+                isTooFar = true;
+            }
+            else
+            {
+                isTooFar = false;
+            }
+
+            if (Input.GetButtonDown("Fire2"))
+            {
+                if (isTooFar)
+                {
+                    print("Too far Away: " + remainingDistance);
+                }
+                else
+                {
+                    print("Okay: " + remainingDistance);
+                    isPlanning = false;
+                    agent.Resume();
+                }
+
+            }
 
             if (agent.remainingDistance > agent.stoppingDistance)
+            {
                 character.Move(agent.desiredVelocity, false, false);
+            }
             else
+            {
                 character.Move(Vector3.zero, false, false);
-        }
-
-
-        public void SetTarget(Transform target)
-        {
-            this.target = target;
+                isPlanning = true;
+                agent.Stop();
+            }
         }
     }
+
 }
