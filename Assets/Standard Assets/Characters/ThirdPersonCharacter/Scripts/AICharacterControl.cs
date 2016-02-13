@@ -13,14 +13,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public float maxDistancePerTurn = 4;
         private bool isPlanning = true;
         private bool isTooFar;
-        public Text uiText;
-
+        private Light uilight;
 
         private void Start()
         {
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = GetComponentInChildren<NavMeshAgent>();
             character = GetComponent<ThirdPersonCharacter>();
+            uilight = GetComponentsInChildren<Light>()[0];
+
 
 	        agent.updateRotation = false;
 	        agent.updatePosition = true;
@@ -48,12 +49,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 float remainingDistance = agent.remainingDistance;
                 if (remainingDistance > maxDistancePerTurn)
                 {
-                    uiText.text = "Too far";
+                    uilight.color = Color.red;
                     isTooFar = true;
                 }
                 else
                 {
-                    uiText.text = "Can go";
+                    uilight.color = Color.green;
                     isTooFar = false;
                 }
 
@@ -61,7 +62,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 {
                     if (!isTooFar)
                     {
-                        uiText.text = "Moving";
+                        uilight.enabled = false;
                         isPlanning = false;
                         agent.Resume();
                     }
@@ -76,6 +77,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             {
                 character.Move(Vector3.zero, false, false);
                 isPlanning = true;
+                uilight.enabled = true;
                 agent.Stop();
             }
         }
